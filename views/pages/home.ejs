@@ -1,24 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <%- include('../partials/head'); %>
-</head>
-<body class="container">
+  <head>
+    <%- include('../partials/head'); %>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <title>Library Lending System</title>
+  </head>
+  <body class="container">
+    <header><%- include('../partials/header'); %></header>
 
-<header>
-  <%- include('../partials/header'); %>
-</header>
-
-<main>
-  <div class="jumbotron">
-    <h1>Welcome to Library</h1>
-    <p>This is a database application for library lending</p>
-  </div>
-</main>
-
-<footer>
-  <%- include('../partials/footer'); %>
-</footer>
-
-</body>
+    <main class="my-5">
+      <div class="jumbotron">
+        <h1 class="display-3 mb-4">Welcome to the Library Lending System</h1>
+        <p class="lead">
+          Here at the library, we provide access to a wide range of books and
+          resources for our patrons. As a librarian, you have access to the
+          following tools:
+        </p>
+        <ul>
+          <li>View and manage the library's collection of books</li>
+          <li>View and manage the Customer</li>
+          <li>View and manage Lending</li>
+        </ul>
+        <p class="lead">
+          Use the navigation menu to access these tools and help our patrons get
+          the most out of our library.
+        </p>
+      </div>
+    </main>
+    <footer><%- include('../partials/footer'); %></footer>
+  </body>
 </html>
