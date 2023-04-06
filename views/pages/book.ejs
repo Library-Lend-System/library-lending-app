@@ -18,6 +18,7 @@
               <th>Genre</th>
               <th>Publisher</th>
               <th>Publication_date</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -29,12 +30,30 @@
               <td><%= book.Genre %></td>
               <td><%= book.Publisher %></td>
               <td><%= book.Publication_date.toDateString() %></td>
+              <td>
+                <button
+                  type="button"
+                  class="btn btn-warning"
+                  data-id="<%= book.Book_id  %>"
+                >
+                  Edit
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-danger mx-2"
+                  data-id="<%= book.Book_id  %>"
+                >
+                  Delete
+                </button>
+              </td>
             </tr>
             <% }); %>
           </tbody>
         </table>
       </div>
-      <button type="button" class="btn btn-primary" id="addNewBook">Add New Book</button>
+      <button type="button" class="btn btn-primary" id="addNewBook">
+        Add New Book
+      </button>
     </main>
 
     <footer><% include('../partials/footer'); %></footer>
@@ -53,11 +72,24 @@
     </style>
 
     <script>
-      const addNewBookButton = document.querySelector('#addNewBook');
+      const addNewBookButton = document.querySelector('#addNewBook')
       addNewBookButton.addEventListener('click', () => {
-        window.location.href = '/new-book';
-      });
+        window.location.href = '/new-book'
+      })
+      document.querySelectorAll('.btn.btn-danger.mx-2').forEach(button => {
+        button.addEventListener('click', function () {
+          const id = this.getAttribute('data-id')
+          alert('Clicked Delete button for Book ID: ' + id)
+          fetch(`/delete-book/${id}`, { method: 'DELETE' })
+            .then(response => {
+              console.log(response)
+              window.location.reload()
+            })
+            .catch(error => {
+              console.log(error)
+            })
+        })
+      })
     </script>
-
   </body>
 </html>

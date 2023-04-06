@@ -49,36 +49,59 @@ const getBooks = async (res) => {
 };
 
 const addBook = async (res, payload) => {
-    let con;
-    try {
-      // Connect to the database using the connection string
-      con = await sql.connect(string_connection);
-      // Create a new SQL request object
-      let request = new sql.Request(con);
-  
-      // Find the maximum Book_id in the Book table and increment it by 1
-      let getMaxBookIdQuery = "SELECT MAX(Book_id) AS max_id FROM Book";
-      let maxBookIdResult = await request.query(getMaxBookIdQuery);
-      let newBookId = maxBookIdResult.recordset[0].max_id + 1;
-  
-      // Insert a new row into the Book table with the data from the payload
-      let create_query = `INSERT INTO Book (Book_id, Title, Author, Genre, Publisher, Publication_date)
+  let con;
+  try {
+    // Connect to the database using the connection string
+    con = await sql.connect(string_connection);
+    // Create a new SQL request object
+    let request = new sql.Request(con);
+
+    // Find the maximum Book_id in the Book table and increment it by 1
+    let getMaxBookIdQuery = "SELECT MAX(Book_id) AS max_id FROM Book";
+    let maxBookIdResult = await request.query(getMaxBookIdQuery);
+    let newBookId = maxBookIdResult.recordset[0].max_id + 1;
+
+    // Insert a new row into the Book table with the data from the payload
+    let create_query = `INSERT INTO Book (Book_id, Title, Author, Genre, Publisher, Publication_date)
       VALUES (${newBookId}, '${payload.Title}', '${payload.Author}', '${payload.Genre}', '${payload.Publisher}', '${payload.Publication_date}')`;
-      console.log(create_query);
-      await request.query(create_query);
-      // Return a success message
-      return "Book added successfully";
-    } catch (err) {
-      console.log(err);
-      res.status(500).send("Error adding book to database");
-    } finally {
-      // Close the database connection
-      if (con) {
-        con.close();
-      }
+    console.log(create_query);
+    await request.query(create_query);
+    // Return a success message
+    return "Book added successfully";
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Error adding book to database");
+  } finally {
+    // Close the database connection
+    if (con) {
+      con.close();
     }
-  };
-  
+  }
+};
+
+const deleteBook = async (res, bookId) => {
+  let con;
+  try {
+    // Connect to the database using the connection string
+    con = await sql.connect(string_connection);
+    // Create a new SQL request object
+    let request = new sql.Request(con);
+
+    let delete_query = `DELETE FROM Book WHERE Book_id = ${bookId};`;
+    console.log(delete_query);
+    await request.query(delete_query);
+    // Return a success message
+    return "Book deleted successfully";
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Error deleting book from database");
+  } finally {
+    // Close the database connection
+    if (con) {
+      con.close();
+    }
+  }
+};
 
 // Set up the Express.js application
 var express = require("express");
@@ -110,7 +133,6 @@ app.get("/books", async (req, res) => {
   // return a list of members in Member table
   try {
     const books = await getBooks(res);
-    console.log(books);
     res.render("pages/book", {
       booksList: books,
     });
@@ -135,13 +157,23 @@ app.post("/add-new-book", async function (req, res) {
       .slice(0, 19)
       .replace("T", " "),
   };
-
+  
   try {
     await addBook(res, payload);
     res.redirect("/books");
   } catch (err) {
     console.log(err);
     res.status(500).send("Error adding book to database");
+  }
+});
+
+app.delete("/delete-book/:id", async (req, res) => {
+  try {
+    await deleteBook(res, req.params.id);
+    res.redirect("/books");
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Error deletinging book from database");
   }
 });
 
