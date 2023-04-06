@@ -79,7 +79,7 @@ const addBook = async (res, payload) => {
 };
 
 const updateBook = async (res, payload) => {
-  /* update book values in Book table */    
+  /* update book values in Book table */
   let con;
   try {
     // Connect to the database using the connection string
@@ -132,6 +132,7 @@ const deleteBook = async (res, bookId) => {
 var express = require("express");
 var cors = require("cors");
 var bodyParser = require("body-parser");
+const { check, validationResult, param } = require("express-validator");
 
 var app = express();
 
@@ -139,7 +140,7 @@ var app = express();
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(express.static('public'));
+app.use(express.static("public"));
 
 // Set the view engine to EJS
 app.set("view engine", "ejs");
@@ -175,18 +176,18 @@ app.get("/new-book", async (req, res) => {
 
 app.post("/add-new-book", async function (req, res) {
   /* create new book from the form request */
-  let payload = {
-    Title: req.body.Title,
-    Author: req.body.Author,
-    Genre: req.body.Genre,
-    Publisher: req.body.Publisher,
-    Publication_date: new Date(req.body.Publication_date)
-      .toISOString()
-      .slice(0, 19)
-      .replace("T", " "),
-  };
-
   try {
+    let payload = {
+      Title: req.body.Title,
+      Author: req.body.Author,
+      Genre: req.body.Genre,
+      Publisher: req.body.Publisher,
+      Publication_date: new Date(req.body.Publication_date)
+        .toISOString()
+        .slice(0, 19)
+        .replace("T", " "),
+    };
+
     await addBook(res, payload);
     res.redirect("/books");
   } catch (err) {
@@ -218,19 +219,19 @@ app.get("/edit-book-form/:id", async (req, res) => {
 
 app.post("/save-edit-book", async (req, res) => {
   /* save a editted book from book editor */
-  let payload = {
-    Book_id: req.body.bookId,
-    Title: req.body.Title,
-    Author: req.body.Author,
-    Genre: req.body.Genre,
-    Publisher: req.body.Publisher,
-    Publication_date: new Date(req.body.Publication_date)
-      .toISOString()
-      .slice(0, 19)
-      .replace("T", " "),
-  };
-
   try {
+    let payload = {
+      Book_id: req.body.bookId,
+      Title: req.body.Title,
+      Author: req.body.Author,
+      Genre: req.body.Genre,
+      Publisher: req.body.Publisher,
+      Publication_date: new Date(req.body.Publication_date)
+        .toISOString()
+        .slice(0, 19)
+        .replace("T", " "),
+    };
+
     await updateBook(res, payload);
     res.redirect("/books");
   } catch (err) {
