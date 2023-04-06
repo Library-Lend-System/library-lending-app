@@ -1,0 +1,14 @@
+# ignore node_modules directory
+node_modules/
+
+# ignore environment variables file
+.env
+
+# ignore log files
+*.log
+
+# ignore npm-debug.log files
+npm-debug.log*
+
+# ignore Mac specific files
+.DS_Store
