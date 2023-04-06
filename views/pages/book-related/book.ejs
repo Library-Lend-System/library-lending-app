@@ -31,20 +31,24 @@
               <td><%= book.Publisher %></td>
               <td><%= book.Publication_date.toDateString() %></td>
               <td>
-                <button
-                  type="button"
-                  class="btn btn-warning"
-                  data-id="<%= book.Book_id  %>"
+                <div
+                  class="d-flex justify-content-around flex-column flex-md-row"
                 >
-                  Edit
-                </button>
-                <button
-                  type="button"
-                  class="btn btn-danger mx-2"
-                  data-id="<%= book.Book_id  %>"
-                >
-                  Delete
-                </button>
+                  <button
+                    type="button"
+                    class="btn btn-warning mb-1 mb-md-0"
+                    data-id="<%= book.Book_id  %>"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-danger my-1 my-md-0"
+                    data-id="<%= book.Book_id  %>"
+                  >
+                    Delete
+                  </button>
+                </div>
               </td>
             </tr>
             <% }); %>
@@ -79,10 +83,11 @@
 
       document.querySelectorAll('.btn.btn-warning').forEach(button => {
         button.addEventListener('click', function () {
-            const id = this.getAttribute('data-id');
-            alert('Clicked Update button for Book ID: ' + id);
-            window.location.href = '/edit-book-form/' + id; 
-        })})
+          const id = this.getAttribute('data-id')
+          alert('Clicked Update button for Book ID: ' + id)
+          window.location.href = '/edit-book-form/' + id
+        })
+      })
 
       document.querySelectorAll('.btn.btn-danger.mx-2').forEach(button => {
         button.addEventListener('click', function () {
