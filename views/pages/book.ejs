@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('../partials/head'); %>
+  </head>
+  <body class="container">
+    <header><%- include('../partials/header'); %></header>
+
+    <main>
+      <h1 class="mt-4">Book list</h1>
+      <div class="table-wrapper my-4">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Title</th>
+              <th>Author</th>
+              <th>Genre</th>
+              <th>Publisher</th>
+              <th>Publication_date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% booksList.forEach(function(book) { %>
+            <tr>
+              <td><%= book.Book_id %></td>
+              <td><%= book.Title %></td>
+              <td><%= book.Author %></td>
+              <td><%= book.Genre %></td>
+              <td><%= book.Publisher %></td>
+              <td><%= book.Publication_date.toDateString() %></td>
+            </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      </div>
+      <button type="button" class="btn btn-primary" id="addNewBook">Add New Book</button>
+    </main>
+
+    <footer><% include('../partials/footer'); %></footer>
+
+    <style>
+      .table-wrapper {
+        max-height: 500px;
+        overflow-y: auto;
+        display: flex;
+        justify-content: center;
+      }
+      table {
+        border: 1px solid black;
+        border-collapse: collapse !important;
+      }
+    </style>
+
+    <script>
+      const addNewBookButton = document.querySelector('#addNewBook');
+      addNewBookButton.addEventListener('click', () => {
+        window.location.href = '/new-book';
+      });
+    </script>
+
+  </body>
+</html>
