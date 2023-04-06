@@ -14,7 +14,7 @@ const getMembers = async (res) => {
     let request = new sql.Request(con);
     const result = await request.query("select * from Member");
     console.log(string_connection);
-    return result;
+    return result.recordset;
   } catch (err) {
     console.log(string_connection);
     res.status(500).send("Error connecting to the database");
@@ -146,15 +146,16 @@ app.use(express.static("public"));
 app.set("view engine", "ejs");
 
 app.get("/members", async (req, res) => {
-  // return a list of members in Member table
-  try {
-    const members = await getMembers(res);
-    console.log(members);
-  } catch (err) {
-    console.log(err);
-    res.status(500).send("Error retrieving data from the database");
-  }
-});
+    try {
+        const members = await getMembers(res);
+        res.render("pages/member-related/member", {
+            membersList: members,
+        });
+    } catch (err) {
+        console.log(err);
+        res.status(500).send("Error retrieving Member data from the database");
+    }
+})
 
 app.get("/books", async (req, res) => {
   /* show book page */
@@ -165,7 +166,7 @@ app.get("/books", async (req, res) => {
     });
   } catch (err) {
     console.log(err);
-    res.status(500).send("Error retrieving data from the database");
+    res.status(500).send("Error retrieving Book data from the database");
   }
 });
 

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('../../partials/head'); %>
+    <style>
+      .table-wrapper {
+        max-height: 500px;
+        overflow-y: auto;
+        display: flex;
+        justify-content: center;
+      }
+      table {
+        border: 1px solid black;
+        border-collapse: collapse !important;
+      }
+      .action-buttons {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+      }
+      .action-buttons button {
+        flex: 1;
+        margin: 5px;
+      }
+    </style>
+  </head>
+  <body class="container">
+    <header><%- include('../../partials/header'); %></header>
+
+    <main>
+      <h1 class="mt-4">Member list</h1>
+      <div class="table-wrapper my-4">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Member Name</th>
+              <th>Member Gender</th>
+              <th>Member Age</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% membersList.forEach(function(member) { %>
+            <tr>
+              <td><%= member.Member_id %></td>
+              <td><%= member.Member_name %></td>
+              <td><%= member.Member_gender %></td>
+              <td><%= member.Member_age %></td>
+              <td>
+                <div class="action-buttons">
+                  <button
+                    type="button"
+                    class="btn btn-warning"
+                    data-id="<%= member.Member_id  %>"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-danger"
+                    data-id="<%= member.Member_id  %>"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      </div>
+      <button type="button" class="btn btn-primary" id="addNewMember">
+        Add New Member
+      </button>
+    </main>
+
+    
+    <script>
+      /* need to implement end point and more form pages */
+      document.querySelectorAll('.btn.btn-danger').forEach(button => {
+        button.addEventListener('click', function () {
+          const id = this.getAttribute('data-id')
+          alert('Clicked Delete button for Member ID: ' + id)
+          fetch(`/delete-member/${id}`, { method: 'DELETE' })
+            .then(response => {
+              console.log(response)
+              window.location.reload()
+            })
+            .catch(error => {
+              console.log(error)
+            })
+        })
+      })
+      document.querySelectorAll('.btn.btn-warning').forEach(button => {
+        button.addEventListener('click', function () {
+          const id = this.getAttribute('data-id')
+          alert('Clicked Edit button for Member ID: ' + id)
+          window.location.href = `/edit-member/${id}`
+        })
+      })
+
+      document.getElementById('addNewMember').addEventListener('click', function() {
+        window.location.href = '/add-new-member'
+      })
+    </script>
+    <footer><%- include('../../partials/footer'); %></footer>
+  </body>
+</html>
