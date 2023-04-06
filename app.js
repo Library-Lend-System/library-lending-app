@@ -91,6 +91,10 @@ app.get("/books", async (req, res) => {
     }
 });
 
+app.get('/', function(req, res) {
+    res.render('pages/home')
+})
+
 // Start the server on port 3000
 const port = 3000;
 app.listen(port, () => console.log(`Server listening on ${port}`));
