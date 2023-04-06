@@ -91,9 +91,18 @@ app.get("/books", async (req, res) => {
     }
 });
 
-app.get('/', function(req, res) {
-    res.render('pages/home')
-})
+app.get("/lending", function (req, res) {
+    res.render("pages/lending");
+});
+
+app.get("/return", function (req, res) {
+    res.render("pages/return");
+});
+
+app.post("/lending", function (req, res) {
+    // save the lending data to the database
+    res.render("pages/lending");
+});
 
 // Start the server on port 3000
 const port = 3000;

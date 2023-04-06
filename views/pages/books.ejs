@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+   <head>
+    <!-- list data page -->
+      <title>Books</title>
+   </head>
+   <body>
+      <a href="/lending">[+ New Lending]</a>
+      <table width="600" border="1">
+         <thead>
+            <th>Member ID</th>
+            <th>Book ID</th>
+            <th>Lending Date</th>
+            <th>Return Date</th>
+            <th>Status</th>
+         </thead>
+         <tbody>
+            <form action="/submit" method="POST"></form>
+            <tr>
+               <td>
+                    <input type="text" name="memberID" value="">
+               </td>
+               <td>
+                    <input type="text" name="bookID" value="">
+               </td>
+            </tr>
+            </form>
+            <!-- <% if (books.length > 0) { %> -->
+            <!-- <% books.forEach(function(book) { %> -->
+            <tr>
+                <td><%= book.memberID %></td>
+                <td><%= book.bookID %></td>
+                <td><%= book.lendingDate %></td>
+                <td><%= book.returnDate %></td>
+                <td><%= book.status %></td>
+            </tr>
+            <!-- <% }); %> -->
+            <!-- <% } %> -->
+         </tbody>
+      </table>
+
+    </body>
+    </html>
