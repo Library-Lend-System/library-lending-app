@@ -1,4 +1,3 @@
-// Import the mssql library and dotenv configuration module
 const sql = require("mssql");
 require("dotenv").config();
 
@@ -6,7 +5,7 @@ require("dotenv").config();
 const string_connection = `Server=${process.env.DB_SERVER},${process.env.DB_PORT};Database=${process.env.DB_NAME};User Id=${process.env.DB_USER};Password=${process.env.DB_PWD};Encrypt=false`;
 
 const getMembers = async (res) => {
-  /* Retrieves all rows from the `Member` table in the database */
+  /* return member list */
   let con;
   try {
     // Connect to the database using the connection string
@@ -28,7 +27,7 @@ const getMembers = async (res) => {
 };
 
 const getBooks = async (res) => {
-  /* Retrieves all rows from the `Book` table in the database */
+  /* return book list */
   let con;
   try {
     // Connect to the database using the connection string
@@ -49,6 +48,7 @@ const getBooks = async (res) => {
 };
 
 const addBook = async (res, payload) => {
+  /* add new book to Book table */
   let con;
   try {
     // Connect to the database using the connection string
@@ -64,7 +64,6 @@ const addBook = async (res, payload) => {
     // Insert a new row into the Book table with the data from the payload
     let create_query = `INSERT INTO Book (Book_id, Title, Author, Genre, Publisher, Publication_date)
       VALUES (${newBookId}, '${payload.Title}', '${payload.Author}', '${payload.Genre}', '${payload.Publisher}', '${payload.Publication_date}')`;
-    console.log(create_query);
     await request.query(create_query);
     // Return a success message
     return "Book added successfully";
@@ -79,7 +78,8 @@ const addBook = async (res, payload) => {
   }
 };
 
-const deleteBook = async (res, bookId) => {
+const updateBook = async (res, payload) => {
+  /* update book values in Book table */    
   let con;
   try {
     // Connect to the database using the connection string
@@ -87,8 +87,33 @@ const deleteBook = async (res, bookId) => {
     // Create a new SQL request object
     let request = new sql.Request(con);
 
+    // create a update query for updating book in the Book table
+    let update_query = `UPDATE Book SET Title = '${payload.Title}', Author = '${payload.Author}',
+      Genre = '${payload.Genre}', Publisher = '${payload.Publisher}', Publication_date = '${payload.Publication_date}'
+      WHERE Book_id = ${payload.Book_id};`;
+    await request.query(update_query);
+    // Return a success message
+    return "Book updated successfully";
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Error updating book to database");
+  } finally {
+    // Close the database connection
+    if (con) {
+      con.close();
+    }
+  }
+};
+
+const deleteBook = async (res, bookId) => {
+  /* delete book from Book table */
+  let con;
+  try {
+    // Connect to the database using the connection string
+    con = await sql.connect(string_connection);
+    // Create a new SQL request object
+    let request = new sql.Request(con);
     let delete_query = `DELETE FROM Book WHERE Book_id = ${bookId};`;
-    console.log(delete_query);
     await request.query(delete_query);
     // Return a success message
     return "Book deleted successfully";
@@ -130,10 +155,10 @@ app.get("/members", async (req, res) => {
 });
 
 app.get("/books", async (req, res) => {
-  // return a list of members in Member table
+  /* show book page */
   try {
     const books = await getBooks(res);
-    res.render("pages/book", {
+    res.render("pages/book-related/book", {
       booksList: books,
     });
   } catch (err) {
@@ -143,10 +168,12 @@ app.get("/books", async (req, res) => {
 });
 
 app.get("/new-book", async (req, res) => {
-  res.render("pages/new-book");
+  /* show new book page with form for recieving input */
+  res.render("pages/book-related/create-book-form");
 });
 
 app.post("/add-new-book", async function (req, res) {
+  /* create new book from the form request */
   let payload = {
     Title: req.body.Title,
     Author: req.body.Author,
@@ -157,7 +184,7 @@ app.post("/add-new-book", async function (req, res) {
       .slice(0, 19)
       .replace("T", " "),
   };
-  
+
   try {
     await addBook(res, payload);
     res.redirect("/books");
@@ -168,12 +195,46 @@ app.post("/add-new-book", async function (req, res) {
 });
 
 app.delete("/delete-book/:id", async (req, res) => {
+  /* delete specific book with id */
   try {
     await deleteBook(res, req.params.id);
     res.redirect("/books");
   } catch (err) {
     console.log(err);
     res.status(500).send("Error deletinging book from database");
+  }
+});
+
+app.get("/edit-book-form/:id", async (req, res) => {
+  /* show a book editor form page */
+  const books = await getBooks(res);
+  let bookToEdit = books.find((book) => book.Book_id == req.params.id);
+  res.render("pages/book-related/edit-book-form", {
+    initialBook: bookToEdit,
+    bookId: req.params.id,
+  });
+});
+
+app.post("/save-edit-book", async (req, res) => {
+  /* save a editted book from book editor */
+  let payload = {
+    Book_id: req.body.bookId,
+    Title: req.body.Title,
+    Author: req.body.Author,
+    Genre: req.body.Genre,
+    Publisher: req.body.Publisher,
+    Publication_date: new Date(req.body.Publication_date)
+      .toISOString()
+      .slice(0, 19)
+      .replace("T", " "),
+  };
+
+  try {
+    await updateBook(res, payload);
+    res.redirect("/books");
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Error adding book to database");
   }
 });
 

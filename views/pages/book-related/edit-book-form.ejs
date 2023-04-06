@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('../../partials/head'); %>
+  </head>
+  <body class="container">
+    <header><%- include('../../partials/header'); %></header>
+
+    <main class="mt-5">
+      <h1>Edit Book with ID <%= bookId; %></h1>
+      <form class="row g-3" action="/save-edit-book" method="POST" >
+        <div class="col-md-6">
+          <label for="title" class="form-label">Title</label>
+          <input
+            type="text"
+            class="form-control"
+            id="Title"
+            name="Title"
+            value="<%= initialBook.Title; %>"
+          />
+        </div>
+        <div class="col-md-6">
+          <label for="author" class="form-label">Author</label>
+          <input
+            type="text"
+            class="form-control"
+            id="Author"
+            name="Author"
+            value="<%= initialBook.Author; %>"
+          />
+        </div>
+        <div class="col-md-6">
+          <label for="genre" class="form-label">Genre</label>
+          <input
+            type="text"
+            class="form-control"
+            id="Genre"
+            name="Genre"
+            value="<%= initialBook.Genre; %>"
+          />
+        </div>
+        <div class="col-md-6">
+          <label for="publisher" class="form-label">Publisher</label>
+          <input
+            type="text"
+            class="form-control"
+            id="Publisher"
+            name="Publisher"
+            value="<%= initialBook.Publisher; %>"
+          />
+        </div>
+        <div class="col-md-6">
+          <label for="publication_date" class="form-label"
+            >Publication Date</label
+          >
+          <input
+            type="date"
+            class="form-control"
+            id="Publication_date"
+            name="Publication_date"
+            value="<%= initialBook.Publication_date.toISOString().substr(0, 10) %>"
+          />
+        </div>
+        <input type="hidden" name="bookId" value="<%= bookId %>">
+        <div class="col-12">
+          <button type="submit" class="btn btn-success">Update</button>
+        </div>
+      </form>
+    </main>
+    <footer><% include('../../partials/footer'); %></footer>
+  </body>
+</html>
