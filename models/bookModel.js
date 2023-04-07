@@ -15,7 +15,7 @@ const getBooks = async (res) => {
     const result = await request.query("select * from Book");
     return result.recordset;
   } catch (err) {
-    res.status(500).send("Error connecting to the database");
+    throw new Error(err);
   } finally {
     // Close the database connection
     if (con) {
@@ -45,8 +45,7 @@ const addBook = async (res, payload) => {
     // Return a success message
     return "Book added successfully";
   } catch (err) {
-    console.log(err);
-    res.status(500).send("Error adding book to database");
+    throw new Error(err);
   } finally {
     // Close the database connection
     if (con) {
@@ -72,8 +71,7 @@ const updateBook = async (res, payload) => {
     // Return a success message
     return "Book updated successfully";
   } catch (err) {
-    console.log(err);
-    res.status(500).send("Error updating book to database");
+    throw new Error(err);
   } finally {
     // Close the database connection
     if (con) {
@@ -95,8 +93,7 @@ const deleteBook = async (res, bookId) => {
     // Return a success message
     return "Book deleted successfully";
   } catch (err) {
-    console.log(err);
-    res.status(500).send("Error deleting book from database");
+    throw new Error(err);
   } finally {
     // Close the database connection
     if (con) {

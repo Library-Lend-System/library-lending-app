@@ -12,7 +12,7 @@ async function show_lending_page(req, res) {
     });
   } catch (err) {
     console.error(err);
-    res.status(500).send("Error retrieving Lending data from the database");
+    res.status(500).render("pages/error", { errorMessage: err.message });
   }
 }
 
@@ -31,7 +31,7 @@ async function create_lending(req, res) {
     res.redirect("/lending");
   } catch (err) {
     console.log(err);
-    res.status(500).send("Error adding lending to database");
+    res.status(500).render("pages/error", { errorMessage: err.message });
   }
 }
 
@@ -48,7 +48,7 @@ async function update_lending_return_date(req, res) {
     res.redirect("/lendings");
   } catch (err) {
     console.log(err);
-    res.status(500).send("Error update lending to database");
+    res.status(500).render("pages/error", { errorMessage: err.message });
   }
 }
 

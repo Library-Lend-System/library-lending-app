@@ -20,8 +20,7 @@ const getMembers = async (res) => {
     );
     return result.recordset;
   } catch (err) {
-    console.log(string_connection);
-    res.status(500).send("Error connecting to the database");
+    throw new Error(err);
   } finally {
     // Close the database connection
     if (con) {
@@ -39,8 +38,7 @@ const deleteMember = async (res, memberId) => {
     await request.query(delete_query);
     return "Member deleted successfully";
   } catch (err) {
-    console.log(err);
-    res.status(500).send("Error deleting member from database");
+    throw new Error(err);
   } finally {
     // Close the database connection
     if (con) {
@@ -67,8 +65,7 @@ const addMember = async (res, payload) => {
     await request.query(create_contact_query);
     return "Member & Contact added successfully";
   } catch (err) {
-    console.log(err);
-    res.status(500).send("Error adding Member & Contact to database");
+    throw new Error(err);
   } finally {
     if (con) {
       con.close();
@@ -88,8 +85,7 @@ const updateMember = async (res, payload) => {
     await request.query(update_contact_query);
     return "Member & Contact updated successfully";
   } catch (err) {
-    console.log(err);
-    res.status(500).send("Error updating Member & Contact to database");
+    throw new Error(err);
   } finally {
     if (con) {
       con.close();

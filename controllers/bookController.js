@@ -14,7 +14,7 @@ async function show_book_page(req, res) {
     });
   } catch (err) {
     console.log(err);
-    res.status(500).send("Error retrieving Book data from the database");
+    res.status(500).render("pages/error", { errorMessage: err.message });
   }
 }
 
@@ -50,7 +50,7 @@ async function create_book(req, res) {
     res.redirect("/book");
   } catch (err) {
     console.log(err);
-    res.status(500).send("Error adding book to database");
+    res.status(500).render("pages/error", { errorMessage: err.message });
   }
 }
 
@@ -73,7 +73,7 @@ async function update_book(req, res) {
     res.redirect("/book");
   } catch (err) {
     console.log(err);
-    res.status(500).send("Error updating book in database");
+    res.status(500).render("pages/error", { errorMessage: err.message });
   }
 }
 
@@ -84,7 +84,7 @@ async function delete_book(req, res) {
     res.redirect("/book");
   } catch (err) {
     console.log(err);
-    res.status(500).send("Error deletinging book from database");
+    res.status(500).render("pages/error", { errorMessage: err.message });
   }
 }
 

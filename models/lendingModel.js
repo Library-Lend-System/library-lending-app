@@ -12,7 +12,7 @@ const getLendings = async (res) => {
     const result = await sql.query("select * from Lending");
     return result.recordset;
   } catch (err) {
-    res.status(500).send("Error connecting to the database");
+    throw new Error(err);
   } finally {
     if (con) {
       con.close();
@@ -36,8 +36,7 @@ const returnLending = async (res, payload) => {
     // Return a success message
     return "Return Lending successfully";
   } catch (err) {
-    console.log(err);
-    res.status(500).send("Error updating lending to database");
+    throw new Error(err);
   } finally {
     // Close the database connection
     if (con) {
@@ -72,8 +71,7 @@ const addLending = async (res, payload) => {
     // Return a success message
     return "Create Lending successfully";
   } catch (err) {
-    console.log(err);
-    res.status(500).send("Error create lending to database");
+    throw new Error(err);
   } finally {
     // Close the database connection
     if (con) {

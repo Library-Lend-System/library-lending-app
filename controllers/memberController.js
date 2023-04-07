@@ -13,7 +13,7 @@ async function show_member_page(req, res) {
     });
   } catch (err) {
     console.error(err);
-    res.status(500).send("Error retrieving Member data from the database");
+    res.status(500).render("pages/error", { errorMessage: err.message });
   }
 }
 
@@ -42,7 +42,7 @@ async function create_member(req, res) {
     res.redirect("/member");
   } catch (err) {
     console.log(err);
-    res.status(500).send("Error adding member to database");
+    res.status(500).render("pages/error", { errorMessage: err.message });
   }
 }
 
@@ -59,7 +59,7 @@ async function update_member(req, res) {
     res.redirect("/member");
   } catch (err) {
     console.log(err);
-    res.status(500).send("Error updating member in database");
+    res.status(500).render("pages/error", { errorMessage: err.message });
   }
 }
 
@@ -69,7 +69,7 @@ async function delete_member(req, res) {
     res.redirect("/member");
   } catch (err) {
     console.log(err);
-    res.status(500).send("Error deletinging member from database");
+    res.status(500).render("pages/error", { errorMessage: err.message });
   }
 }
 
