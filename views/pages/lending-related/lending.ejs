@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('../../partials/head'); %>
+  </head>
+  <body class="container">
+    <header><%- include('../../partials/header'); %></header>
+
+    <main>
+      <h1 class="mt-4">Lending list</h1>
+      <div class="table-wrapper my-4">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Member ID</th>
+              <th>Book ID</th>
+              <th>Borrow Date</th>
+              <th>Return Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% lendingsList.forEach(function(lending) { %>
+            <tr>
+              <td><%= lending.Lending_id %></td>
+              <td><%= lending.Member_id %></td>
+              <td><%= lending.Book_id %></td>
+              <td><%= lending.Borrow_date.toDateString() %></td>
+              <td>
+                <% if (lending.Return_date) { %> <%=
+                lending.Return_date.toDateString() %> <%} else { %>
+                <button
+                  type="button"
+                  class="btn btn-success my-1 my-md-0"
+                  data-id="<%= lending.Lending_id  %>"
+                >
+                  Return
+                </button>
+                <% } %>
+              </td>
+            </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      </div>
+      <button type="button" class="btn btn-primary" id="addNewBook">
+        Add New Lending
+      </button>
+    </main>
+
+    <footer><%- include('../../partials/footer'); %></footer>
+
+    <style>
+      .table-wrapper {
+        max-height: 500px;
+        overflow-y: auto;
+        display: flex;
+        justify-content: center;
+      }
+      table {
+        border: 1px solid black;
+        border-collapse: collapse !important;
+      }
+    </style>
+
+    <script></script>
+  </body>
+</html>

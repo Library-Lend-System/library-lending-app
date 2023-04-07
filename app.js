@@ -189,9 +189,11 @@ app.get("/books", async (req, res) => {
 
 app.get("/lendings", async (req, res) => {
   try {
-    const lendings = await getLendings(res);
+    const lendings = await getLendings(res)
     // render pages/lending-related/lending
-
+    res.render("pages/lending-related/lending", {
+      lendingsList: lendings,
+    })
   } catch (err) {
     console.error(err);
     res.status(500).send("Error retrieving Lending data from the database");
