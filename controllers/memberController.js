@@ -1,4 +1,4 @@
-const { getMembers } = require('../models/memberModel');
+const { getMembers, deleteMember } = require('../models/memberModel');
 
 async function show_member_page (req, res) {
     try {
@@ -12,6 +12,16 @@ async function show_member_page (req, res) {
     }
   };
 
+async function delete_member (req, res) {
+  try {
+    await deleteMember(res, req.params.id);
+    res.redirect("/member");
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Error deletinging member from database");
+  }
+}
+
 module.exports = {
-  show_member_page
+  show_member_page, delete_member
 };
