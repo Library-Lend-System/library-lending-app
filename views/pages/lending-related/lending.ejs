@@ -43,7 +43,7 @@
           </tbody>
         </table>
       </div>
-      <button type="button" class="btn btn-primary" id="addNewBook">
+      <button type="button" class="btn btn-primary" id="addNewLending">
         Add New Lending
       </button>
     </main>
@@ -64,6 +64,11 @@
     </style>
 
     <script>
+      const addNewBookButton = document.querySelector('#addNewLending')
+      addNewBookButton.addEventListener('click', () => {
+        window.location.href = '/new-lending'
+      })
+
       document.querySelectorAll('.btn.btn-success').forEach(button => {
         button.addEventListener('click', function () {
           const id = this.getAttribute('data-id')

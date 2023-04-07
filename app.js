@@ -248,6 +248,27 @@ app.get("/new-book", async (req, res) => {
   res.render("pages/book-related/create-book-form");
 });
 
+app.get("/new-lending", async (req, res) => {
+  res.render("pages/lending-related/create-lending-form");
+});
+
+app.post("/add-new-lending", async (req, res) => {
+    /* create new Lending from the form request */
+    try {
+      let payload = {
+        Member_id: req.body.Member_id,
+        Book_id: req.body.Book_id,
+        Borrow_date: req.body.Borrow_date,
+      };
+  
+      // await addLending(res, payload);
+      res.redirect("/lendings");
+    } catch (err) {
+      console.log(err);
+      res.status(500).send("Error adding lending to database");
+    }
+})
+
 app.post("/add-new-book", async function (req, res) {
   /* create new book from the form request */
   try {
