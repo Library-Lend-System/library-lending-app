@@ -11,7 +11,7 @@
       <form
         class="row g-3 needs-validation"
         method="POST"
-        action="/add-new-lending"
+        action="/lending/create"
         novalidate
       >
         <div class="col-md-6">
@@ -82,10 +82,8 @@
       }
 
       function getDate() {
-        console.log('get date called')
         var today = new Date()
         let borrow_date = document.getElementById('Borrow_date')
-        console.log(borrow_date)
         document.getElementById('Borrow_date').value =
           today.getFullYear() +
           '-' +

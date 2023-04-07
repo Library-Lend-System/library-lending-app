@@ -78,14 +78,14 @@
     <script>
       const addNewBookButton = document.querySelector('#addNewBook')
       addNewBookButton.addEventListener('click', () => {
-        window.location.href = '/new-book'
+        window.location.href = '/book/create-form'
       })
 
       document.querySelectorAll('.btn.btn-warning').forEach(button => {
         button.addEventListener('click', function () {
           const id = this.getAttribute('data-id')
           alert('Clicked Update button for Book ID: ' + id)
-          window.location.href = '/edit-book-form/' + id
+          window.location.href = '/book/edit-form/' + id
         })
       })
 
@@ -93,7 +93,7 @@
         button.addEventListener('click', function () {
           const id = this.getAttribute('data-id')
           alert('Clicked Delete button for Book ID: ' + id)
-          fetch(`/delete-book/${id}`, { method: 'DELETE' })
+          fetch(`/book/delete/${id}`, { method: 'DELETE' })
             .then(response => {
               console.log(response)
               window.location.reload()
