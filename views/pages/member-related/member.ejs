@@ -97,13 +97,12 @@
       document.querySelectorAll('.btn.btn-warning').forEach(button => {
         button.addEventListener('click', function () {
           const id = this.getAttribute('data-id')
-          alert('Clicked Edit button for Member ID: ' + id)
-          window.location.href = `/edit-member/${id}`
+          window.location.href = `/member/edit-form/${id}`
         })
       })
 
       document.getElementById('addNewMember').addEventListener('click', function() {
-        window.location.href = '/add-new-member'
+        window.location.href = '/member/create-form'
       })
     </script>
     <footer><%- include('../../partials/footer'); %></footer>

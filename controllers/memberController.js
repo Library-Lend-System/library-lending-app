@@ -1,18 +1,69 @@
-const { getMembers, deleteMember } = require('../models/memberModel');
+const {
+  getMembers,
+  deleteMember,
+  addMember,
+  updateMember,
+} = require("../models/memberModel");
 
-async function show_member_page (req, res) {
-    try {
-      const members = await getMembers();
-      res.render("pages/member-related/member", {
-        membersList: members,
-      });
-    } catch (err) {
-      console.error(err);
-      res.status(500).send("Error retrieving Member data from the database");
-    }
-  };
+async function show_member_page(req, res) {
+  try {
+    const members = await getMembers();
+    res.render("pages/member-related/member", {
+      membersList: members,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Error retrieving Member data from the database");
+  }
+}
 
-async function delete_member (req, res) {
+function show_create_member_form(req, res) {
+  res.render("pages/member-related/create-member-form");
+}
+
+async function show_edit_member_form (req, res) {
+  const members = await getMembers(res);
+  let memberToEdit = members.find(member => member.Member_id == req.params.id)
+  res.render("pages/member-related/edit-member-form", {
+    initialMember: memberToEdit,
+    memberId: req.params.id
+  })
+}
+
+async function create_member(req, res) {
+  try {
+    let payload = {
+      Member_name: req.body.Member_name,
+      Member_gender: req.body.Member_gender,
+      Member_age: req.body.Member_age,
+      Phone_number: req.body.Phone_number,
+    };
+    await addMember(res, payload);
+    res.redirect("/member");
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Error adding member to database");
+  }
+}
+
+async function update_member(req, res) {
+  try {
+    let payload = {
+      Member_id: req.body.memberId,
+      Member_name: req.body.Member_name,
+      Member_gender: req.body.Member_gender,
+      Member_age: req.body.Member_age,
+      Phone_number: req.body.Phone_number,
+    };
+    await updateMember(res, payload);
+    res.redirect("/member");
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Error updating member in database");
+  }
+}
+
+async function delete_member(req, res) {
   try {
     await deleteMember(res, req.params.id);
     res.redirect("/member");
@@ -23,5 +74,10 @@ async function delete_member (req, res) {
 }
 
 module.exports = {
-  show_member_page, delete_member
+  show_member_page,
+  show_create_member_form,
+  show_edit_member_form,
+  create_member,
+  update_member,
+  delete_member
 };
