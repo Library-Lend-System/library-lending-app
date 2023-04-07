@@ -157,6 +157,26 @@ app.get("/members", async (req, res) => {
     }
 })
 
+app.get("/new-member", async (req, res) => {
+    res.render("pages/member-related/create-member-form");
+})
+
+app.post("/add-new-member", async function (req, res) {
+    try {
+        let payload = {
+            Name : req.body.Name,
+            Gender : req.body.Gender,
+            Age : req.body.Age
+        }
+        await addMember(res, payload);
+        res.redirect("/members");
+    } catch (err) {
+        console.log(err);
+        res.status(500).send("Error adding Member to the database");
+    }
+})
+
+
 app.get("/books", async (req, res) => {
   /* show book page */
   try {

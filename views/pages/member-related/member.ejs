@@ -101,9 +101,11 @@
         })
       })
 
-      document.getElementById('addNewMember').addEventListener('click', function() {
-        window.location.href = '/add-new-member'
+      const addNewMemberButton = document.querySelector('#addNewMember')
+      addNewMemberButton.addEventListener('click', () => {
+        window.location.href = '/new-member'
       })
+
     </script>
     <footer><%- include('../../partials/footer'); %></footer>
   </body>

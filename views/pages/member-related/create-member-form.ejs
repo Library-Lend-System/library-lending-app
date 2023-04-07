@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('../../partials/head'); %>
+  </head>
+  <body class="container">
+    <header><%- include('../../partials/header'); %></header>
+
+    <main class="mt-5">
+      <div class="container col-6">
+      <h1>Add New Member</h1>
+      <form
+        class="row g-3 needs-validation"
+        method="POST"
+        action="/add-new-member"
+        novalidate
+      >
+        <div class="row-6">
+          <label for="name" class="form-label">Name</label>
+          <input
+            type="text"
+            class="form-control"
+            id="Name"
+            name="Name"
+            required
+            maxlength="50"
+          />
+          <div class="invalid-feedback">Please enter a valid name.</div>
+        </div>
+        <div class="row-6">
+          <label for="Age" class="form-label">Age</label>
+          <input
+            type="text"
+            class="form-control"
+            id="Age"
+            name="Age"
+            required
+            maxlength="50"
+          />
+          <div class="invalid-feedback">Please enter a valid Age.</div>
+        </div>
+        <div class="col-md-6">
+          <br>
+          <label for="Gender" class="form-label">Gender</label>
+          <select class="col-md-4" id="Gender" name="Gender" class="form-label" size="1" >
+            <option value="M">Male</option>  
+            <option value="F">Female</option>  
+        </select> 
+          <div class="invalid-feedback">Please enter a valid gender.</div>
+        </div>
+        <div class="col-12">
+          <button
+            type="submit"
+            class="btn btn-primary"
+            onclick="validateForm()"
+          >
+            Create
+          </button>
+        </div>
+      </form>
+      </div>
+    </main>
+
+    <footer><%- include('../../partials/footer'); %></footer>
+
+    <script>
+        function validateForm() {
+        var form = document.forms[0]
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+        form.classList.add('was-validated')
+        return form.checkValidity()
+      }
+    </script>
+  </body>
+</html>
