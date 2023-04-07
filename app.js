@@ -32,7 +32,6 @@ const getLendings = async (res) => {
     con = await sql.connect(string_connection);
     let request = new sql.Request(con);
     const result = await sql.query("select * from Lending");
-    console.log(result.recordset);
     return result.recordset;
   } catch (err) {
     res.status(500).send("Error connecting to the database");
@@ -41,7 +40,7 @@ const getLendings = async (res) => {
       con.close();
     }
   }
-}
+};
 
 const getBooks = async (res) => {
   /* return book list */
@@ -122,6 +121,32 @@ const updateBook = async (res, payload) => {
   }
 };
 
+const returnLending = async (res, payload) => {
+  /* update return date values in Lending table */
+  let con;
+  try {
+    // Connect to the database using the connection string
+    con = await sql.connect(string_connection);
+    // Create a new SQL request object
+    let request = new sql.Request(con);
+
+    request.input('Lending_id', sql.Int, payload.Lending_id)
+    request.input('Return_date', payload.Return_date)
+
+    await request.execute('returnLending')
+    // Return a success message
+    return "Return Lending successfully";
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Error updating lending to database");
+  } finally {
+    // Close the database connection
+    if (con) {
+      con.close();
+    }
+  }
+};
+
 const deleteBook = async (res, bookId) => {
   /* delete book from Book table */
   let con;
@@ -163,16 +188,16 @@ app.use(express.static("public"));
 app.set("view engine", "ejs");
 
 app.get("/members", async (req, res) => {
-    try {
-        const members = await getMembers(res);
-        res.render("pages/member-related/member", {
-            membersList: members,
-        });
-    } catch (err) {
-        console.log(err);
-        res.status(500).send("Error retrieving Member data from the database");
-    }
-})
+  try {
+    const members = await getMembers(res);
+    res.render("pages/member-related/member", {
+      membersList: members,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Error retrieving Member data from the database");
+  }
+});
 
 app.get("/books", async (req, res) => {
   /* show book page */
@@ -189,14 +214,32 @@ app.get("/books", async (req, res) => {
 
 app.get("/lendings", async (req, res) => {
   try {
-    const lendings = await getLendings(res)
+    const lendings = await getLendings(res);
     // render pages/lending-related/lending
     res.render("pages/lending-related/lending", {
       lendingsList: lendings,
-    })
+    });
   } catch (err) {
     console.error(err);
     res.status(500).send("Error retrieving Lending data from the database");
+  }
+});
+
+app.post("/return-lending/:id", async (req, res) => {
+  try {
+    let payload = {
+      Lending_id : req.params.id,
+      Return_date : new Date()
+      .toLocaleDateString()
+      .slice(0, 19)
+      .replace("T", " "),
+    }
+    console.log(payload)
+    returnLending(res, payload)
+    res.redirect("/lendings")
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Error update lending to database");
   }
 });
 
