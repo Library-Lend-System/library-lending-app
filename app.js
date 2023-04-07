@@ -26,6 +26,23 @@ const getMembers = async (res) => {
   }
 };
 
+const getLendings = async (res) => {
+  let con;
+  try {
+    con = await sql.connect(string_connection);
+    let request = new sql.Request(con);
+    const result = await sql.query("select * from Lending");
+    console.log(result.recordset);
+    return result.recordset;
+  } catch (err) {
+    res.status(500).send("Error connecting to the database");
+  } finally {
+    if (con) {
+      con.close();
+    }
+  }
+}
+
 const getBooks = async (res) => {
   /* return book list */
   let con;
@@ -167,6 +184,17 @@ app.get("/books", async (req, res) => {
   } catch (err) {
     console.log(err);
     res.status(500).send("Error retrieving Book data from the database");
+  }
+});
+
+app.get("/lendings", async (req, res) => {
+  try {
+    const lendings = await getLendings(res);
+    // render pages/lending-related/lending
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Error retrieving Lending data from the database");
   }
 });
 
