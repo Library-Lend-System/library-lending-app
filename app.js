@@ -147,6 +147,42 @@ const returnLending = async (res, payload) => {
   }
 };
 
+const addLending = async (res, payload) => {
+  /* create new lending in Lending table */
+  let con;
+  try {
+    // Connect to the database using the connection string
+    con = await sql.connect(string_connection);
+    // Create a new SQL request object
+    let request = new sql.Request(con);
+
+    let getMaxLendIdQuery = "SELECT MAX(Lending_id) AS max_id FROM Lending";
+    let maxLendIdResult = await request.query(getMaxLendIdQuery);
+    let newLendId = maxLendIdResult.recordset[0].max_id + 1;
+
+    const Member_id = payload.Member_id;
+    const Book_id = payload.Book_id;
+    const Borrow_date = payload.Borrow_date;
+
+    request.input('Lending_id', sql.Int, newLendId);
+    request.input('Member_id', sql.Int, Member_id);
+    request.input('Book_id', sql.Int, Book_id);
+    request.input('Borrow_date', Borrow_date);
+    
+    await request.execute('createLending')
+    // Return a success message
+    return "Create Lending successfully";
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Error create lending to database");
+  } finally {
+    // Close the database connection
+    if (con) {
+      con.close();
+    }
+  }
+};
+
 const deleteBook = async (res, bookId) => {
   /* delete book from Book table */
   let con;
@@ -260,8 +296,7 @@ app.post("/add-new-lending", async (req, res) => {
         Book_id: req.body.Book_id,
         Borrow_date: req.body.Borrow_date,
       };
-  
-      // await addLending(res, payload);
+      await addLending(res, payload);
       res.redirect("/lendings");
     } catch (err) {
       console.log(err);
