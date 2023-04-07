@@ -15,7 +15,6 @@ const getBooks = async (res) => {
     const result = await request.query("select * from Book");
     return result.recordset;
   } catch (err) {
-    console.log(string_connection);
     res.status(500).send("Error connecting to the database");
   } finally {
     // Close the database connection

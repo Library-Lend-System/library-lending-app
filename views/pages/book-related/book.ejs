@@ -84,7 +84,6 @@
       document.querySelectorAll('.btn.btn-warning').forEach(button => {
         button.addEventListener('click', function () {
           const id = this.getAttribute('data-id')
-          alert('Clicked Update button for Book ID: ' + id)
           window.location.href = '/book/edit-form/' + id
         })
       })
@@ -92,15 +91,19 @@
       document.querySelectorAll('.btn.btn-danger').forEach(button => {
         button.addEventListener('click', function () {
           const id = this.getAttribute('data-id')
-          alert('Clicked Delete button for Book ID: ' + id)
-          fetch(`/book/delete/${id}`, { method: 'DELETE' })
-            .then(response => {
-              console.log(response)
-              window.location.reload()
-            })
-            .catch(error => {
-              console.log(error)
-            })
+          const confirmation = confirm(
+            'Are you sure you want to delete this book?'
+          )
+
+          if (confirmation) {
+            fetch(`/book/delete/${id}`, { method: 'DELETE' })
+              .then(response => {
+                window.location.reload()
+              })
+              .catch(error => {
+                console.log(error)
+              })
+          }
         })
       })
     </script>
