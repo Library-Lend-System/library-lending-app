@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head'); %>
+  <title>Error</title>
+  <style>
+    body {
+      background-color: #f8f9fa;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .error-container {
+      background-color: #ffffff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      max-width: 400px;
+      width: 100%;
+    }
+    .error-icon {
+      font-size: 96px;
+      color: #dc3545;
+      margin-bottom: 20px;
+    }
+    .error-title {
+      font-size: 36px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+    .error-message {
+      font-size: 18px;
+      margin-bottom: 30px;
+    }
+    .btn-back {
+      font-size: 18px;
+      padding: 10px 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="error-container">
+    <i class="fas fa-exclamation-triangle error-icon"></i>
+    <h1 class="error-title">Oops!</h1>
+    <p class="error-message">An error occurred: <%= errorMessage %></p>
+    <a href="/" class="btn btn-primary btn-back">Go Back to Home</a>
+  </div>
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <footer><%- include('../partials/footer'); %></footer>
+</body>
+</html>

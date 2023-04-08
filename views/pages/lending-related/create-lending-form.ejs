@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('../../partials/head'); %>
+  </head>
+  <body class="container">
+    <header><%- include('../../partials/header'); %></header>
+
+    <main class="mt-5">
+      <h1>Add New Lending</h1>
+      <form
+        class="row g-3 needs-validation"
+        method="POST"
+        action="/lending/create"
+        novalidate
+      >
+        <div class="col-md-6">
+          <label for="Member_id" class="form-label">Member ID</label>
+          <input
+            type="text"
+            min="0"
+            onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))"
+            class="form-control"
+            id="Member_id"
+            name="Member_id"
+            required
+            maxlength="40"
+          />
+          <div class="invalid-feedback">Please enter a valid Member ID.</div>
+        </div>
+        <div class="col-md-6">
+          <label for="Book_id" class="form-label">Book ID</label>
+          <input
+            type="text"
+            min="0"
+            onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))"
+            class="form-control"
+            id="Book_id"
+            name="Book_id"
+            required
+            maxlength="40"
+          />
+          <div class="invalid-feedback">Please enter a valid Book ID.</div>
+        </div>
+        <div class="col-md-6">
+          <label for="Borrow_date" class="form-label">Borrow date</label>
+          <input
+            type="date"
+            class="form-control"
+            id="Borrow_date"
+            name="Borrow_date"
+            required
+          />
+          <div class="invalid-feedback">Please enter a valid Borrow date.</div>
+        </div>
+        <div class="col-12">
+          <button
+            type="submit"
+            class="btn btn-primary"
+            onclick="validateForm()"
+          >
+            Create
+          </button>
+        </div>
+      </form>
+    </main>
+
+    <footer><%- include('../../partials/footer'); %></footer>
+
+    <script>
+      window.onload = () => {
+        getDate()
+      }
+      function validateForm() {
+        var form = document.forms[0]
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+        form.classList.add('was-validated')
+        return form.checkValidity()
+      }
+
+      function getDate() {
+        var today = new Date()
+        let borrow_date = document.getElementById('Borrow_date')
+        document.getElementById('Borrow_date').value =
+          today.getFullYear() +
+          '-' +
+          ('0' + (today.getMonth() + 1)).slice(-2) +
+          '-' +
+          ('0' + today.getDate()).slice(-2)
+      }
+    </script>
+  </body>
+</html>

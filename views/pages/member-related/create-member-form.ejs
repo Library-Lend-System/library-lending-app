@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('../../partials/head'); %>
+    <style>
+      body {
+        font-family: 'Roboto', sans-serif;
+        background-color: #f8f9fa;
+      }
+      .card {
+        border-radius: 10px;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1),
+          0 6px 20px 0 rgba(0, 0, 0, 0.1);
+      }
+
+      .card-header {
+        background-color: #007bff;
+        color: white;
+        font-weight: bold;
+        border-radius: 10px 10px 0 0;
+      }
+
+      .card-body {
+        padding: 2rem;
+      }
+
+      .form-check-input:checked ~ .form-check-label {
+        font-weight: bold;
+      }
+
+      button[type='submit'] {
+        background-color: #007bff;
+        border: none;
+        font-weight: bold;
+      }
+
+      button[type='submit']:hover {
+        background-color: #0056b3;
+      }
+
+      @media (max-width: 768px) {
+        .form-label {
+          margin-top: 1rem;
+        }
+      }
+    </style>
+  </head>
+  <body class="container">
+    <header><%- include('../../partials/header'); %></header>
+    <main class="mt-5">
+      <div class="card">
+        <div class="card-header text-center">Add New Member</div>
+        <div class="card-body">
+          <form
+            class="row g-3 needs-validation"
+            method="POST"
+            action="/member/create"
+            novalidate
+          >
+            <div class="col-md-6">
+              <label for="Member_name" class="form-label">Member name</label>
+              <input
+                type="text"
+                class="form-control"
+                id="Member_name"
+                name="Member_name"
+                required
+                maxlength="40"
+              />
+              <div class="invalid-feedback">Please enter a member name.</div>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Gender</label>
+              <div>
+                <div class="form-check form-check-inline">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="Member_gender"
+                    id="inlineRadio1"
+                    value="Male"
+                  />
+                  <label class="form-check-label" for="inlineRadio1"
+                    >Male</label
+                  >
+                </div>
+                <div class="form-check form-check-inline">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="Member_gender"
+                    id="inlineRadio2"
+                    value="Female"
+                  />
+                  <label class="form-check-label" for="inlineRadio2"
+                    >Female</label
+                  >
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <label for="Member_age" class="form-label">Age</label>
+              <input
+                type="number"
+                class="form-control"
+                id="Member_age"
+                name="Member_age"
+                required
+                min="1"
+                max="130"
+              />
+              <div class="invalid-feedback">Please enter a valid age.</div>
+            </div>
+            <div class="col-md-6">
+              <label for="Phone_number" class="form-label">Phone number</label>
+              <input
+                type="tel"
+                class="form-control"
+                id="Phone_number"
+                name="Phone_number"
+                required
+                pattern="^\d{10}$"
+              />
+              <div class="invalid-feedback">
+                Please enter a valid phone number.
+              </div>
+            </div>
+            <div class="col-12 d-flex justify-content-center">
+              <button
+                type="submit"
+                class="btn btn-primary px-4 py-2"
+                onclick="validateForm()"
+              >
+                Create
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </main>
+
+    <footer class="mt-5"><%- include('../../partials/footer'); %></footer>
+
+    <script>
+      function validateForm() {
+        var form = document.forms[0]
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+        form.classList.add('was-validated')
+        return form.checkValidity()
+      }
+    </script>
+  </body>
+</html>
