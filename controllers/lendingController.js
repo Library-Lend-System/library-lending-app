@@ -7,8 +7,10 @@ const {
 async function show_lending_page(req, res) {
   try {
     const lendings = await getLendings();
+    const errorMessage = req.query.error;
     res.render("pages/lending-related/lending", {
       lendingsList: lendings,
+      errorMessage: errorMessage,
     });
   } catch (err) {
     console.error(err);
@@ -30,10 +32,11 @@ async function create_lending(req, res) {
     await addLending(res, payload);
     res.redirect("/lending");
   } catch (err) {
-    console.log(err);
-    res.status(500).render("pages/error", { errorMessage: err.message });
+    console.log(err.message);
+    res.redirect("/lending?error=" + encodeURIComponent(err.message));
   }
 }
+
 
 async function update_lending_return_date(req, res) {
   try {

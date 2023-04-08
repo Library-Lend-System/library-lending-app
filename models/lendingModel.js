@@ -67,7 +67,15 @@ const addLending = async (res, payload) => {
     request.input("Book_id", sql.Int, Book_id);
     request.input("Borrow_date", Borrow_date);
 
-    await request.execute("createLending");
+    const result = await request.execute("createLending");
+    if (result.rowsAffected.length == 0) {
+      throw new Error(
+        "Adding failed! Make sure book ID is available for lending"
+      );
+    }
+    if (result.rowsAffected.every((val) => val === 0)) {
+      throw new Error("Adding failed! Book ID or Member ID does not exist");
+    }
     // Return a success message
     return "Create Lending successfully";
   } catch (err) {
