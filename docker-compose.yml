@@ -1,0 +1,29 @@
+version: '3.9'
+services:
+  app:
+    build: .
+    ports:
+      - '3000:3000'
+    depends_on:
+      - db
+    environment:
+      DB_SERVER: db
+      DB_USER: ${DB_USER}
+      DB_PWD: ${DB_PWD}
+      DB_NAME: ${DB_NAME}
+      DB_PORT: ${DB_PORT}
+
+  db:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    ports:
+      - '1433:1433'
+    environment:
+      ACCEPT_EULA: 'Y'
+      MSSQL_SA_PASSWORD: ${DB_PWD}
+      MSSQL_PID: Express
+    volumes:
+      - ./db-init.sql:/docker-entrypoint-initdb.d/db-init.sql
+    # run mssql in the background and execute db-init.sql script using sqlcmd CLI tools
+    command: /bin/bash -c "/opt/mssql/bin/sqlservr & sleep 30s & /opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P '${DB_PWD}' -i /docker-entrypoint-initdb.d/db-init.sql; tail -f /dev/null"
+
+
