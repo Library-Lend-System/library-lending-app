@@ -12,3 +12,5 @@ npm-debug.log*
 
 # ignore Mac specific files
 .DS_Store
+
+docker-compose.env
