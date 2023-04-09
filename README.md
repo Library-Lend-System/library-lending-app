@@ -87,11 +87,12 @@ library-lending-app/
    DB_PORT=<your-database-port>
    DB_NAME=<your-database-name>
    ```
+   
 
-4. Start the development server:
+4. Run the app using Docker Compose:
 
    ```bash
-   npm run dev
+   docker-compose up --build
    ```
 
    The app should now be running at `http://localhost:3000`.
