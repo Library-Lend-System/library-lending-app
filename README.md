@@ -81,11 +81,11 @@ library-lending-app/
    Update the `.env` file with your database credentials:
 
    ```
-   DB_USER=<your-database-username>
-   DB_PASSWORD=<your-database-password>
-   DB_HOST=<your-database-host>
-   DB_PORT=<your-database-port>
-   DB_NAME=<your-database-name>
+   DB_SERVER=127.0.0.1
+   DB_USER=sa
+   DB_PWD=<your-Password>
+   DB_NAME=Library_System_DB
+   DB_PORT=1433
    ```
    
 
