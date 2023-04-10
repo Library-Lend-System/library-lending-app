@@ -83,7 +83,7 @@ library-lending-app/
    ```
    DB_SERVER=127.0.0.1
    DB_USER=sa
-   DB_PWD=<your-Password>
+   DB_PWD=<your-Password-at-least-8-character-long-with-capital-letter-and-number-and-non-alphanumeric-characters>
    DB_NAME=Library_System_DB
    DB_PORT=1433
    ```
